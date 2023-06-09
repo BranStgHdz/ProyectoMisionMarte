@@ -1,0 +1,110 @@
+import java.util.*;
+
+// clase del juego
+public class Game {
+    public static void main(String[] args) throws InterruptedException {
+        Scanner input = new Scanner(System.in);
+        Random numRandom = new Random();
+        int x = 0, y = 0, dir = 0, planoX = 0, planoY = 0, opcTipoMapa = 0;
+        //x = y = cordenada del jugador
+        //dir = direccion del jugador
+        //planoX = planoY = indice de la matriz de la posicion del jugador
+        //opcTipoMapa = el mapa puede ser generado por valores que el usuario colocara o seran valores aleatorios
+        boolean juego = true;
+        char jugador = ' ';
+
+        //aspecto del jugador
+        System.out.print("Jugador: ");
+        jugador = input.next().charAt(0);
+        //declarar valores del largo y ancho del mapa
+        System.out.println("1: Escoger los valores del mapa | 2: Valores aleatorios (1-100)");
+        opcTipoMapa = input.nextInt();
+        while (opcTipoMapa < 1 || opcTipoMapa > 2) {
+            System.out.println("No ha seleccionado de manera correcta. . .");
+            System.out.println("1: Escoger los valores del mapa | 2: Valores aleatorios (1-100)");
+            opcTipoMapa = input.nextInt();
+        }
+        switch (opcTipoMapa) {
+            case 1:
+                System.out.print("Ancho: ");
+                planoX = input.nextInt();
+                System.out.print("Largo: ");
+                planoY = input.nextInt();
+                break;
+            case 2:
+                planoX = numRandom.nextInt(100) + 1;
+                planoY = numRandom.nextInt(100) + 1;
+                System.out.println("Ancho: " + planoX + "\nLargo: " + planoY);
+                break;
+        }
+        int plano[][] = new int[planoX][planoY];
+        plano[0][0] = jugador;
+
+        //juego
+        while (juego) {
+            for (int i = 0; i < planoY; i++) {
+                for (int j = 0; j < planoX; j++) {
+                    if (plano[j][i] == jugador) {
+                        System.out.print("[" + jugador + "]");
+                    } else {
+                        System.out.print("[ ]");
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println("Direccion: 1: Derecha | 2: Izquierda | 3: Arriba | 4: Abajo");
+            dir = input.nextInt();
+            while (dir < 1 || dir > 4) {
+                System.out.println("No ha seleccionado de manera correcta. . .");
+                System.out.println("Direccion: 1: Derecha | 2: Izquierda | 3: Arriba | 4: Abajo");
+                dir = input.nextInt();
+            }
+            switch (dir) {
+                case 1: //x++
+                    x++;
+                    if (x == planoX) { //limite del mapa
+                        x = 0;
+                        plano[x][y] = jugador;
+                        plano[x + planoX - 1][y] = ' ';
+                    } else { //movimiento
+                        plano[x][y] = jugador;
+                        plano[x - 1][y] = ' ';
+                    }
+                    break;
+                case 2: //x--
+                    x--;
+                    if (x < 0) { //limite del mapa
+                        x = planoX - 1;
+                        plano[x][y] = jugador;
+                        plano[0][y] = ' ';
+                    } else {
+                        plano[x][y] = jugador;
+                        plano[x + 1][y] = ' ';
+                    }
+                    break;
+                case 3: //y--
+                    y--;
+                    if (y < 0) {
+                        y = planoY - 1;
+                        plano[x][y] = jugador;
+                        plano[x][0] = ' ';
+                    } else {
+                        plano[x][y] = jugador;
+                        plano[x][y + 1] = ' ';
+                    }
+                    break;
+                case 4: //y++
+                    y++;
+                    if (y == planoY) {
+                        y = 0;
+                        plano[x][y] = jugador;
+                        plano[x][y + planoY - 1] = ' ';
+                    } else {
+                        plano[x][y] = jugador;
+                        plano[x][y - 1] = ' ';
+                    }
+                    break;
+            }
+        }
+    }
+}

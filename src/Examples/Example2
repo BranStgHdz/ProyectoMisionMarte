@@ -1,0 +1,66 @@
+import javax.swing.JFrame;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class EventosTeclado {
+    public static void main(String[] args) {
+        MarcoConTeclas mimarco = new MarcoConTeclas();
+        mimarco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+}
+
+class MarcoConTeclas extends JFrame{
+    public MarcoConTeclas(){
+        setVisible(true);
+        setBounds(100,-100,100,100);
+        EventoDeTeclado tecla = new EventoDeTeclado();
+        addKeyListener(tecla);
+    }
+}
+
+class EventoDeTeclado implements KeyListener{
+    @Override
+    public void keyTyped(KeyEvent e) {
+//        int codigo = e.getKeyCode();
+//        System.out.println(codigo);
+        char letra = e.getKeyChar();
+        System.out.println(letra);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+}
+
+// Test copy paste matriz
+        // Cuenta la cantidad de caracteres en cada casilla y lo guarda como total de la fila
+        for(int i = 0;i < mapTemp.length;i++){
+            for(int j = 0;j < mapTemp[0].length;j++){
+                contador[i]+= mapTemp[i][j].length();
+            }
+        }
+        // Imprime el mapa normalizado. map Prueba
+        cont =0;
+        System.out.println("MapTemp: ");
+        for (int i = 0; i < mapTemp.length; i++) {
+            cont = contador[i] - mapTemp[0].length; // Cuenta los exesos de caracteres
+            for (int j = 0; j < mapTemp[0].length; j++) {
+                // Si hay exesos no imprime las primeras lineas para compesar
+                if(cont == 0){
+                    System.out.print(mapTemp[i][j]);
+                }
+                cont--;
+                if(cont < 0){
+                    cont=0;
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("termina");
+
